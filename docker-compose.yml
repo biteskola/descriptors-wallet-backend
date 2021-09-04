@@ -1,0 +1,33 @@
+version: "3"
+#uses on github action
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27018:27017 # for access
+    networks:
+      - back
+    restart: always
+    tty: true
+    container_name: btc-explorer_mongo_1
+
+  api:
+    build: ./
+    ports:
+      - 3000:3000
+    depends_on:
+      - "mongo"
+    networks:
+      - back
+    restart: always
+    tty: true
+    container_name: btc-explorer_api_1
+
+volumes:
+  db_data:
+
+networks:
+  back:
+    external: true
+  front:
+    external: true

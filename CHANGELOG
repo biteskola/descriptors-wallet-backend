@@ -1,0 +1,6 @@
+# CHANGELOG
+## v0.0.2 (04/09/2021)
+- Basic administration of users with JWT, groups (firstAdmin, admin, user, member), acceptance tests, docker, CI and envirtoments (prod, dev, test).
+
+## v0.0.1 (11/06/2021)
+- Loopback4 application created from lb4-cli
