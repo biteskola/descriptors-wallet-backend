@@ -1,4 +1,4 @@
-# btc-explorer
+# lb4-base
 ## Use
 
 - Install docker and docker-compose on your machine.
@@ -34,7 +34,7 @@ By default, dependencies were installed when this application was generated.
 # Functional tests
 
 - docker exec -it [API_CONTAINERID/ API_CONTAINERNAME] npm run test
-(docker exec -it btc-explorer_api_1 npm run test)
+(docker exec -it lb4-base_api_1 npm run test)
 
 Whenever dependencies in `package.json` are changed, run the following command:
 
