@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download code
-        run: git clone --branch development https://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@github.com/biteskola/lb4-base.git
+        run: git clone --branch development https://github.com/aitorjs/lb4-base/
 
       - name: Create env file
         run: |
