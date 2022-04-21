@@ -1,7 +1,7 @@
 import {
   AuthorizationContext,
   AuthorizationDecision,
-  AuthorizationMetadata,
+  AuthorizationMetadata
 } from '@loopback/authorization';
 import {securityId, UserProfile} from '@loopback/security';
 import _ from 'lodash';
