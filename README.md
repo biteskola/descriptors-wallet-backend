@@ -22,5 +22,5 @@
 ## Observations
 
 - [21/04/2022] Se declina el uno de authentication-jwt en su v0.11.2 porque:
-1. En el middleware/auth.midd.ts no le llega el dato de role, lo que hace la authorization inviable.
+1. A middleware/auth.midd.ts@basicAuthorization no le llega el dato de role, lo que hace la authorization inviable.
 2. Authentication-jwt esta verde, hay que modificar la extension porque sino en todos los endpoints del explorador sale el candado y confunde. Tampoco esta integrado con la authorization.
