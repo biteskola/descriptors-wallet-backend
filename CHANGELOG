@@ -1,4 +1,7 @@
 # CHANGELOG
+## v0.0.4 (21/04/2022)
+- Trying to modify authentication-jwt component. Rejected. Reasons on observations of README.
+
 ## v0.0.3 (08/02/2022)
 - Mainly dependencies updated.
 - Tested with authentication-jwt component. Its use is rejected because swagger-ui always put the [lock](https://github.com/loopbackio/loopback-next/blob/master/extensions/authentication-jwt/src/jwt-authentication-component.ts#L49).
