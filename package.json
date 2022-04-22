@@ -1,7 +1,7 @@
 {
-  "name": "lb-base",
-  "version": "0.0.4",
-  "description": "loopback4, openapi, restapi",
+  "name": "descriptors-wallet",
+  "version": "0.0.1",
+  "description": "descriptors, wallet, bitcoin, loopback4, openapi, restapi",
   "keywords": [
     "loopback-application",
     "loopback"
@@ -30,14 +30,14 @@
     "build": "lb-tsc",
     "test": "NODE_ENV=testing lb-mocha --allow-console-logs dist/__tests__/acceptance/**/*.acceptance.js --timeout 100000000 --exit",
     "test:dev": "npm test && npm run lint:fix",
-    "api:build": "docker build -t lb-base .",
-    "api:logs": "docker logs lb-base_api -f",
+    "api:build": "docker build -t descriptors-wallet .",
+    "api:logs": "docker logs descriptors-wallet_api -f",
     "mongo:build": "docker pull mongo",
     "start": "node -r source-map-support/register .",
-    "stop:docker": "docker stop lb-base_mongo lb-base_api;docker rm lb-base_mongo lb-base_api",
+    "stop:docker": "docker stop descriptors-wallet_mongo descriptors-wallet_api;docker rm descriptors-wallet_mongo descriptors-wallet_api",
     "start:prod:docker": "docker-compose -f ./config/docker/prod/docker-compose.yml up --build -d",
     "start:dev:docker": "docker-compose -f ./config/docker/dev/docker-compose.yml up --build -d",
-    "start:test:docker": "docker-compose -f ./config/docker/test/docker-compose.yml up --build -d;docker exec lb-base_api npm run test;npm run stop:docker",
+    "start:test:docker": "docker-compose -f ./config/docker/test/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run test;npm run stop:docker",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
   },
   "repository": {

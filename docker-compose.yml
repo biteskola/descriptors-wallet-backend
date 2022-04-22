@@ -9,7 +9,7 @@ services:
       - back
     restart: always
     tty: true
-    container_name: lb-base_mongo
+    container_name: descriptors-wallet_mongo
 
   api:
     build: ./
@@ -21,10 +21,11 @@ services:
       - back
     restart: always
     tty: true
-    container_name: lb-base_api
+    container_name: descriptors-wallet_api
 
 volumes:
   db_data:
+
 
 networks:
   back:

@@ -1,4 +1,4 @@
-# lb-base
+# descriptors-wallet
 ## Use
 
 - Install docker and docker-compose on your machine.
