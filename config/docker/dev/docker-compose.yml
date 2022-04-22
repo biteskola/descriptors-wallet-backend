@@ -2,6 +2,7 @@ version: "3"
 
 services:
   mongo:
+    container_name: descriptors-wallet_mongo
     image: mongo
     ports:
       - 27018:27017 # for access
@@ -9,9 +10,9 @@ services:
       - back
     restart: always
     tty: true
-    container_name: lb-base_mongo
 
   api:
+    container_name: descriptors-wallet_api
     build:
       context: ../../../
       dockerfile: ./config/docker/dev/start.Dockerfile
@@ -23,10 +24,10 @@ services:
       - back
     restart: always
     tty: true
-    container_name: lb-base_api
 
 volumes:
   db_data:
+
 
 networks:
   back:

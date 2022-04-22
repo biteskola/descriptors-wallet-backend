@@ -18,23 +18,23 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download code
-        run: git clone --branch development https://github.com/aitorjs/lb4-base/ lb-base
+        run: git clone --branch development https://github.com/biteskola/descriptors-wallet-backend
 
       - name: Create env file
         run: |
-          cd lb-base/
+          cd descriptors-wallet-backend/
           touch .env
           echo "ADMIN_EMAIL='root@email.com'" >> .env
           echo "ADMIN_PASS='passpass1'" >> .env
           echo "JWT_ACCESS_SECRET='myjwts3cr3t'" >> .env
 
-      - name: Up test envirotment
+      - name: Up test environment
         run: |
-          cd lb-base/
+          cd descriptors-wallet-backend/
           docker network create back
           docker-compose up -d
 
       - name: Testing
         run: |
-          cd lb-base/
-          docker exec lb-base_api npm run test
+          cd descriptors-wallet-backend/
+          docker exec descriptors-wallet_api npm run test
