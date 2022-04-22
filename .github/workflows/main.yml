@@ -37,4 +37,5 @@ jobs:
       - name: Testing
         run: |
           cd descriptors-wallet-backend/
+          docker ps
           docker exec descriptors-wallet_api npm run test

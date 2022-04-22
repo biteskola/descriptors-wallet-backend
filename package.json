@@ -1,7 +1,7 @@
 {
   "name": "descriptors-wallet",
-  "version": "0.0.4",
-  "description": "loopback4, openapi, restapi",
+  "version": "0.0.1",
+  "description": "descriptors, wallet, bitcoin, loopback4, openapi, restapi",
   "keywords": [
     "loopback-application",
     "loopback"
