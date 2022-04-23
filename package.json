@@ -38,7 +38,7 @@
     "start:prod:docker": "docker-compose -f ./config/docker/prod/docker-compose.yml up --build -d",
     "start:dev:docker": "docker-compose -f ./config/docker/dev/docker-compose.yml up --build -d",
     "start:test:docker": "docker-compose -f ./config/docker/test/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run test;npm run stop:docker",
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
+    "clean": "lb-clean dist .eslintcache"
   },
   "repository": {
     "type": "git",
