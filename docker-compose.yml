@@ -2,6 +2,7 @@ version: "3"
 # used on github action
 # github host machine user is uid as 1001(runner)
 # and gid as 121(docker)
+# $ id => uid=1001(runner) gid=121(docker) groups=121(docker),4(adm),101(systemd-journal)
 services:
   mongo:
     container_name: descriptors-wallet_mongo
@@ -27,7 +28,12 @@ services:
     tty: true
 
   api:
+    container_name: descriptors-wallet_api
     build: ./
+    user: "1001:121"
+    volumes:
+      - ./config/bitcoin:/bitcoin/.bitcoin
+      #- $HOME/.bitcoin:/bitcoin/.bitcoin
     ports:
       - 3000:3000
     environment:
@@ -39,7 +45,6 @@ services:
       - back
     restart: always
     tty: true
-    container_name: descriptors-wallet_api
 
 volumes:
   db_data:

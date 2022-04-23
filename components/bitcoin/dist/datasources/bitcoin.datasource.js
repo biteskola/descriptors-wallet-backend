@@ -4,15 +4,13 @@ exports.BitcoinDataSource = void 0;
 const tslib_1 = require("tslib");
 const core_1 = require("@loopback/core");
 const repository_1 = require("@loopback/repository");
+const fs_1 = (0, tslib_1.__importDefault)(require("fs"));
 const types_1 = require("../types");
-const { execSync } = require('child_process');
-const a = execSync('ls -las /bitcoin/.bitcoin/regtest/; pwd');
-console.log("a", a);
 // @ts-ignore
 const bitcoinConfig = types_1.DEFAULT_BITCOIN_OPTIONS[process.env.BITCOIN_NETWORK];
 console.log("cookieLocation", bitcoinConfig);
-// const credentials = fs.readFileSync(bitcoinConfig.cookie, {encoding: 'utf8', flag: 'r'});
-const base64Auth = stringToBase64("btc:c3a30d88c1ff98017b55846917d433$d4634b459dae50b34656479c0a10f68b2c5da3d122cfb14d93ab5b9c4ae83dc0");
+const credentials = fs_1.default.readFileSync(bitcoinConfig.cookie, { encoding: 'utf8', flag: 'r' });
+const base64Auth = stringToBase64(credentials);
 const config = {
     name: 'bitcoin',
     connector: 'rest',

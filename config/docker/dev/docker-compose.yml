@@ -42,6 +42,9 @@ services:
     build:
       context: ../../../
       dockerfile: ./config/docker/dev/start.Dockerfile
+    volumes:
+      #- ./../../../config/bitcoin:/bitcoin/.bitcoin:ro
+      - $HOME/.bitcoin:/bitcoin/.bitcoin:ro
     ports:
       - 3000:3000
     environment:

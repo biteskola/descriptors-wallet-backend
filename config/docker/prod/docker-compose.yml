@@ -11,15 +11,34 @@ services:
     restart: always
     tty: true
 
+  bitcoind:
+    container_name: descriptors-wallet_bitcoind
+    image: kylemanna/bitcoind
+    user: "1000:1000"
+    command: bash -c "bitcoind -conf=/bitcoin/.bitcoin/bitcoin.regtest.conf"
+    volumes:
+      #- ./../../../config/bitcoin:/bitcoin/.bitcoin
+      - $HOME/.bitcoin:/bitcoin/.bitcoin
+    networks:
+      - back
+    restart: always
+    tty: true
+
   api:
     container_name: descriptors-wallet_api
     build:
       context: ../../../
       dockerfile: ./config/docker/prod/start.Dockerfile
+    volumes:
+      #- ./../../../config/bitcoin:/bitcoin/.bitcoin:ro
+      - $HOME/.bitcoin:/bitcoin/.bitcoin:ro
     ports:
       - 3000:3000
+    environment:
+      BITCOIN_NETWORK: "regtest"
     depends_on:
       - "mongo"
+      - "bitcoind"
     networks:
       - back
     restart: always
