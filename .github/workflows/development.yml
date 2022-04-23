@@ -29,7 +29,8 @@ jobs:
           echo "JWT_ACCESS_SECRET='myjwts3cr3t'" >> .env
           mkdir -p $HOME/.bitcoin
           pwd
-          ls -las ./config/bitcoin
+          ls -las ./config
+          id
           cp ./config/bitcoin/bitcoin.regtest.conf $HOME/.bitcoin
 
       - name: Up test environment
