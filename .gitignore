@@ -62,4 +62,4 @@ typings/
 /dist
 
 # Cache used by TypeScript's incremental build
-*.tsbuildinfo
+#*.tsbuildinfo
