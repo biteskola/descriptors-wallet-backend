@@ -44,5 +44,7 @@ jobs:
           cd descriptors-wallet-backend/
           id
           ls / -las
+          ls -las /home
+          ls -las $HOME
           ls /home/node/app -las
           docker exec descriptors-wallet_api npm run test
