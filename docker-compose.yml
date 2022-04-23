@@ -32,8 +32,8 @@ services:
     build: ./
     user: "1001:121"
     volumes:
-      # - ./config/bitcoin:/bitcoin/.bitcoin
-      - $HOME/.bitcoin:/bitcoin/.bitcoin
+      - ./config/bitcoin:/bitcoin/.bitcoin
+      #- $HOME/.bitcoin:/bitcoin/.bitcoin
     ports:
       - 3000:3000
     environment:
