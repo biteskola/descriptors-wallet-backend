@@ -30,7 +30,7 @@ services:
   api:
     container_name: descriptors-wallet_api
     build: ./
-    #user: "1001:121"
+    user: "1001:121"
     volumes:
       - ./config/bitcoin:/bitcoin/.bitcoin
       #- $HOME/.bitcoin:/bitcoin/.bitcoin
