@@ -14,6 +14,7 @@ import {
 import {ServiceMixin} from '@loopback/service-proxy';
 import {MigrationBindings, MigrationComponent} from 'loopback4-migration';
 import path from 'path';
+import {BitcoinComponent, BitcoinComponentBindings, BitcoinComponentOptions, DEFAULT_BITCOIN_OPTIONS} from '../components/bitcoin';
 import {JWTAuthenticationStrategy} from './authentication-strategies/jwt-strategy';
 import {MongoDataSource} from './datasources';
 import {
@@ -32,6 +33,10 @@ export class LbBaseApplication extends BootMixin(
 ) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
+
+    const optsBitcoin: BitcoinComponentOptions = DEFAULT_BITCOIN_OPTIONS;
+    this.configure(BitcoinComponentBindings.COMPONENT).to(optsBitcoin);
+    this.component(BitcoinComponent);
 
     this.setUpBindings();
 
