@@ -2,7 +2,7 @@ FROM node:16-slim
 
 USER node
 
-RUN mkdir -p /home/node/app
+RUN mkdir -p /home/node/app && id
 
 WORKDIR /home/node/app
 

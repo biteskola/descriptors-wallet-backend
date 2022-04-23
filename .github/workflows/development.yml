@@ -42,7 +42,7 @@ jobs:
       - name: Testing
         run: |
           cd descriptors-wallet-backend/
+          id
           ls / -las
-          ls /bitcoin -las
-          ls -las /bitcoin/.bitcoin
+          ls /home/node/app -las
           docker exec descriptors-wallet_api npm run test
