@@ -28,7 +28,7 @@ services:
     container_name: descriptors-wallet_api
     build:
       context: ../../../
-      dockerfile: Dockerfile
+      dockerfile: ./config/docker/test/start.Dockerfile
     volumes:
       #- ./../../../config/bitcoin:/bitcoin/.bitcoin:ro
       - $HOME/.bitcoin:/bitcoin/.bitcoin:ro

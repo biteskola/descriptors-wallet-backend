@@ -26,6 +26,7 @@
     "preopenapi-spec": "npm run build",
     "openapi-spec": "node ./dist/openapi-spec",
     "rebuild": "npm run clean && npm run build",
+    "rebuild:ci": "npm run clean:ci && npm run build",
     "prestart": "npm run rebuild",
     "build": "lb-tsc",
     "test": "NODE_ENV=testing lb-mocha --allow-console-logs dist/__tests__/acceptance/**/*.acceptance.js **/dist/__tests__/acceptance/*.acceptance.js --timeout 100000000 --exit",
@@ -38,7 +39,8 @@
     "start:prod:docker": "docker-compose -f ./config/docker/prod/docker-compose.yml up --build -d",
     "start:dev:docker": "docker-compose -f ./config/docker/dev/docker-compose.yml up --build -d",
     "start:test:docker": "docker-compose -f ./config/docker/test/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run test;npm run stop:docker",
-    "clean": "lb-clean dist .eslintcache"
+    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
+    "clean:ci": "lb-clean dist .eslintcache"
   },
   "repository": {
     "type": "git",

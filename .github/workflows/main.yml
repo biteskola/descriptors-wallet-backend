@@ -27,8 +27,10 @@ jobs:
           echo "ADMIN_EMAIL='root@email.com'" >> .env
           echo "ADMIN_PASS='passpass1'" >> .env
           echo "JWT_ACCESS_SECRET='myjwts3cr3t'" >> .env
+          mkdir -p $HOME/.bitcoin
+          cp ./config/bitcoin/bitcoin.regtest.conf $HOME/.bitcoin
 
-      - name: Up test envirotment
+      - name: Up test environment
         run: |
           cd descriptors-wallet-backend/
           docker network create back

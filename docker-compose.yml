@@ -20,7 +20,6 @@ services:
     user: "1001:121"
     command: bitcoind -conf=/bitcoin/.bitcoin/bitcoin.regtest.conf
     volumes:
-      #- ./config/bitcoin:/bitcoin/.bitcoin
       - $HOME/.bitcoin:/bitcoin/.bitcoin
     networks:
       - back
@@ -32,7 +31,6 @@ services:
     build: ./
     user: "1001:121"
     volumes:
-      #- ./config/bitcoin:/bitcoin/.bitcoin
       - $HOME/.bitcoin:/bitcoin/.bitcoin
     ports:
       - 3000:3000
