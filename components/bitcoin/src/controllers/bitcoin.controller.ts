@@ -19,6 +19,7 @@ export class BitcoinController {
   })
   @post('/bitcoin', {
     security: SECURITY_SPEC,
+    summary: 'Generic endpoint to call any bitcoin-core RPC',
     responses: {
       '200': {
         description: 'Call to any bitcoin-core RPC',

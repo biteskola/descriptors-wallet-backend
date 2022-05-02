@@ -60,6 +60,7 @@ let BitcoinController = class BitcoinController {
     }),
     (0, rest_1.post)('/bitcoin', {
         security: security_spec_1.SECURITY_SPEC,
+        summary: 'Generic endpoint to call any bitcoin-core RPC',
         responses: {
             '200': {
                 description: 'Call to any bitcoin-core RPC',
