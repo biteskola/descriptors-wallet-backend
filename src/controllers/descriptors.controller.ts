@@ -22,7 +22,7 @@ import {PasswordHasher} from '../services';
 import {SECURITY_SPEC} from '../utils/security-spec';
 
 @model()
-export class Address {
+class Address {
   @property({
     type: 'string',
     required: true,
@@ -30,7 +30,7 @@ export class Address {
   address: string;
 }
 
-export const AddressRequestBody = {
+const AddressRequestBody = {
   description: 'The input for addresss',
   required: true,
   content: {
@@ -41,7 +41,7 @@ export const AddressRequestBody = {
 };
 
 @model()
-export class Descriptor {
+class Descriptor {
   @property({
     type: 'string',
     required: true,
@@ -49,7 +49,7 @@ export class Descriptor {
   descriptors: string;
 }
 
-export const DescriptorRequestBody = {
+const DescriptorRequestBody = {
   description: 'The input for descriptors',
   required: true,
   content: {
@@ -60,7 +60,7 @@ export const DescriptorRequestBody = {
 };
 
 @model()
-export class AddressResponse {
+class AddressResponse {
   @property({
     type: 'string',
     required: true,
@@ -74,25 +74,31 @@ export class AddressResponse {
   address: string;
 }
 
-@model()
-export class DescriptorByAddressesResponse {
-  @property({
-    type: 'array',
-    required: true,
-    itemType: AddressResponse,
-  })
-  data: Array<AddressResponse>;
-}
-
-export const DescriptorByAddressesResponseBody = {
-  description: 'Response data',
-  required: true,
+const DescriptorByAddressesResponseBody = {
+  description: 'Server status',
   content: {
     'application/json': {
-      schema: getModelSchemaRef(DescriptorByAddressesResponse),
+      schema: {
+        title: 'StatusResponse',
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            pubkey: {
+              type: 'string',
+              required: true
+            },
+            address: {
+              type: 'string',
+              required: true
+            }
+          },
+        },
+      },
     },
   },
-};
+}
+
 
 export class DescriptorsController {
   constructor(
@@ -155,7 +161,7 @@ export class DescriptorsController {
       }) */
   async getAddressesInfo(
     @requestBody(AddressRequestBody) addressRequest: Address,
-  ): Promise<any> { // Promise<Array<WalletResponse>>
+  ): Promise<Array<Object>> { // Promise<Array<WalletResponse>>
     console.log("addressRequest", addressRequest)
 
     // ElectrumClient.blockchainScripthash_getbalance(address)
@@ -163,7 +169,35 @@ export class DescriptorsController {
     // ElectrumClient.blockchainScripthash_listunspent(address)
     // RESPONSE: [{type: 'receive' / 'change', pubkey: '', address: '', balance: {confirmed: '', unconfirmed: ''}, transactions: [{pubkey: '', address: ''} ... ], utxos: {...}}
 
-    return true;
+    return [
+      {
+        /*  type: 'receive', // 'receive' / 'change'
+         pubkey: '',
+         address: '', */
+        balance: {
+          confirmed: 0,
+          unconfirmed: 0
+        },
+        transactions: [
+          {
+            pubkey: 'string',
+            address: 'string',
+            txid: 'string'
+          },
+          {
+            pubkey: 'string',
+            address: 'string',
+            txid: 'string'
+          }
+        ],
+        utxos: [
+          {
+            txid: 'string',
+            vout: 0
+          }
+        ]
+      }
+    ]
   }
 
   @post('walletInfo/{descriptor}', {
@@ -181,7 +215,7 @@ export class DescriptorsController {
       }) */
   async getWalletInfo(
     @requestBody(DescriptorRequestBody) descriptorRequest: Descriptor,
-  ): Promise<any> { // // Promise<Array<WalletResponse>>?
+  ): Promise<any> { // Promise<Array<WalletResponse>>?
     console.log("descriptorRequest", descriptorRequest)
 
 
