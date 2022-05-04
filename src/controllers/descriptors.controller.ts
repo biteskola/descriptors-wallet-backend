@@ -21,8 +21,13 @@ import {Credentials, UserRepository} from '../repositories';
 import {PasswordHasher} from '../services';
 import {SECURITY_SPEC} from '../utils/security-spec';
 
+/*
+  M para Model => MAddress (modelo de Address)
+  Req para Request => ReqAddress (request de Address)
+  Res para Response => ReqAddress (response de Address)
+*/
 @model()
-class Address {
+class MAddress {
   @property({
     type: 'string',
     required: true,
@@ -30,37 +35,36 @@ class Address {
   address: string;
 }
 
-const AddressRequestBody = {
+const ReqAddress = {
   description: 'The input for addresss',
   required: true,
   content: {
     'application/json': {
-      schema: getModelSchemaRef(Address),
+      schema: getModelSchemaRef(MAddress),
     },
   },
 };
 
 @model()
-class Descriptor {
+class MDescriptor {
   @property({
     type: 'string',
     required: true,
   })
-  descriptors: string;
+  descriptor: string;
 }
 
-const DescriptorRequestBody = {
+const ReqDescriptor = {
   description: 'The input for descriptors',
   required: true,
   content: {
     'application/json': {
-      schema: getModelSchemaRef(Descriptor),
+      schema: getModelSchemaRef(MDescriptor),
     },
   },
 };
 
-@model()
-class AddressResponse {
+class ResAddress {
   @property({
     type: 'string',
     required: true,
@@ -74,7 +78,7 @@ class AddressResponse {
   address: string;
 }
 
-const DescriptorByAddressesResponseBody = {
+const ResDescriptorByAddresses = {
   description: 'Server status',
   content: {
     'application/json': {
@@ -117,7 +121,7 @@ export class DescriptorsController {
     security: SECURITY_SPEC,
     summary: 'Get all addresses by descriptor',
     responses: {
-      '200': DescriptorByAddressesResponseBody
+      '200': ResDescriptorByAddresses
     },
   })
 
@@ -127,9 +131,9 @@ export class DescriptorsController {
         voters: [basicAuthorization],
       }) */
   async getAddressesByDescriptor(
-    @requestBody(DescriptorRequestBody) descriptorRequest: Descriptor,
-  ): Promise<Array<AddressResponse>> {
-    console.log("descriptorRequest", descriptorRequest)
+    @requestBody(ReqDescriptor) ReqDescriptor: MDescriptor,
+  ): Promise<Array<ResAddress>> {
+    console.log("descriptorRequest", ReqDescriptor)
 
     // deriveaddress => bitcoin-cli
     // RESPONSE: [ { pubkey: '', address: '' }, { pubkey: '', address: '' } ... }]
@@ -160,9 +164,9 @@ export class DescriptorsController {
         voters: [basicAuthorization],
       }) */
   async getAddressesInfo(
-    @requestBody(AddressRequestBody) addressRequest: Address,
+    @requestBody(ReqAddress) ReqAddress: MAddress,
   ): Promise<Array<Object>> { // Promise<Array<WalletResponse>>
-    console.log("addressRequest", addressRequest)
+    console.log("addressRequest", ReqAddress)
 
     // ElectrumClient.blockchainScripthash_getbalance(address)
     // ElectrumClient.blockchainScripthash_gethistory(address)
@@ -214,9 +218,9 @@ export class DescriptorsController {
         voters: [basicAuthorization],
       }) */
   async getWalletInfo(
-    @requestBody(DescriptorRequestBody) descriptorRequest: Descriptor,
+    @requestBody(ReqDescriptor) ReqDescriptor: MDescriptor,
   ): Promise<any> { // Promise<Array<WalletResponse>>?
-    console.log("descriptorRequest", descriptorRequest)
+    console.log("descriptorRequest", ReqDescriptor)
 
 
     // let allAdresses = {pubkey: {}, address: {receive: [], change: []}, balance: {confirmed: 0, unconfirmed: 0}, transactions: [{}], utxos: [{}]}
