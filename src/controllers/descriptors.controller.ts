@@ -138,7 +138,7 @@ class ResAddresses {
     type: 'object',
     required: true,
   })
-  balance: Array<MBalance>;
+  balance: MBalance;
 
   @property({
     type: 'object',
@@ -247,7 +247,7 @@ export class DescriptorsController {
       }) */
   async getAddressesInfo(
     @requestBody(ReqAddress) ReqAddress: MAddress,
-  ): Promise<Array<Object>> { // Promise<Array<ResAddresses>>
+  ): Promise<Array<ResAddresses>> {
     console.log("addressRequest", ReqAddress)
 
     // ElectrumClient.blockchainScripthash_getbalance(address)
