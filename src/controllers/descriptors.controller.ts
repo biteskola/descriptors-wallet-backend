@@ -103,6 +103,88 @@ const ResDescriptorByAddresses = {
   },
 }
 
+@model()
+class MBalance {
+  @property()
+  confirmed: number;
+
+  @property()
+  unconfirmed: number;
+}
+
+@model()
+class MTransaction {
+  @property()
+  pubkey: string;
+
+  @property()
+  address: string;
+
+  @property()
+  txid: string;
+}
+
+@model()
+class MUtxo {
+  @property()
+  txid: string;
+
+  @property()
+  vout: number;
+}
+
+class ResAddresses {
+  @property({
+    type: 'object',
+    required: true,
+  })
+  balance: Array<MBalance>;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  transactions: Array<MTransaction>;
+
+  @property({
+    type: 'object',
+    required: true,
+  })
+  utxos: Array<MUtxo>;
+}
+
+const ResAddressInfoByAddresses = {
+  description: 'Server status',
+  content: {
+    'application/json': {
+      schema: {
+        title: 'StatusResponse',
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            balance: {
+              'x-ts-type': MBalance,
+              required: true
+            },
+            transactions: {
+              type: 'array',
+              items: {
+                'x-ts-type': MTransaction
+              }
+            },
+            utxos: {
+              type: 'array',
+              items: {
+                'x-ts-type': MUtxo
+              }
+            }
+          },
+        },
+      },
+    },
+  },
+}
 
 export class DescriptorsController {
   constructor(
@@ -154,7 +236,7 @@ export class DescriptorsController {
     security: SECURITY_SPEC,
     summary: 'Get information of an address',
     responses: {
-      '200': Object // AddressInfoByAddressResponse
+      '200': ResAddressInfoByAddresses
     },
   })
 
@@ -165,7 +247,7 @@ export class DescriptorsController {
       }) */
   async getAddressesInfo(
     @requestBody(ReqAddress) ReqAddress: MAddress,
-  ): Promise<Array<Object>> { // Promise<Array<WalletResponse>>
+  ): Promise<Array<Object>> { // Promise<Array<ResAddresses>>
     console.log("addressRequest", ReqAddress)
 
     // ElectrumClient.blockchainScripthash_getbalance(address)
