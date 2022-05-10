@@ -11,6 +11,7 @@ import {
   requestBody,
   RestBindings
 } from '@loopback/rest';
+import axios from 'axios';
 import {
   PasswordHasherBindings,
   TokenServiceBindings,
@@ -65,11 +66,11 @@ const ReqDescriptor = {
 };
 
 class ResAddress {
-  @property({
+  /* @property({
     type: 'string',
     required: true,
   })
-  pubkey: string;
+  pubkey: string; */
 
   @property({
     type: 'string',
@@ -86,7 +87,8 @@ const ResDescriptorByAddresses = {
         title: 'StatusResponse',
         type: 'array',
         items: {
-          type: 'object',
+          'x-ts-type': MAddress,
+          /* type: 'object',
           properties: {
             pubkey: {
               type: 'string',
@@ -96,7 +98,7 @@ const ResDescriptorByAddresses = {
               type: 'string',
               required: true
             }
-          },
+          }, */
         },
       },
     },
@@ -213,23 +215,41 @@ export class DescriptorsController {
         voters: [basicAuthorization],
       }) */
   async getAddressesByDescriptor(
+    // wpkh(036ea52f664d8e90ab757391af84e9ab783327f67fa83025e401fc72946b070219)#ytrywtsw => bcrt1qlftq0pjd9tp284kzm0xzykr2lus9ckqju7mk0z
+    // wpkh([4325da1f]023cf230d519ec9ad6cb9f458a71591946f98c9f470274087de3fa0aa67523e39f)#3aa46c0e => bcrt1qgvja58u80zhnvydvyz5873vk80stzk8y0l2080
+    // pk(0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798)#gn28ywm7 => mrCDrCybB6J1vRfbwM5hemdJz73FwDBC8r
     @requestBody(ReqDescriptor) ReqDescriptor: MDescriptor,
   ): Promise<Array<ResAddress>> {
-    console.log("descriptorRequest", ReqDescriptor)
+    console.log("descriptorRequest", ReqDescriptor.descriptor)
 
-    // deriveaddress => bitcoin-cli
-    // RESPONSE: [ { pubkey: '', address: '' }, { pubkey: '', address: '' } ... }]
+    // deriveaddress => bitcoin-cli --regtest
+    // TODO: If not #checsum, call bitcoin-cli --regtest getdescriptorinfo
+    const body = {
+      "method": "deriveaddresses",
+      "params": [ReqDescriptor.descriptor]
+    }
 
-    return [
-      {
-        "pubkey": "string",
-        "address": "string"
+    // TODO: Crear una clase en core que se llame JWT.getTokenFromRequest?
+    const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFkOTU5NmU3LTUzNzktNDY3Ny05ZWIwLTUyYzJhN2NlOGI3NyIsInJvbGUiOiJmaXJzdEFkbWluIiwiaWF0IjoxNjUyMjIxNTEzLCJleHAiOjE2NTIyNTc1MTN9.YkCI4Vl2MzmcrZoBDPVyo4_inJVIFWhP8rP-S0SK-j0';
+    const resp = await axios({
+      method: 'post',
+      url: 'http://localhost:3000/bitcoin',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${jwt}`
       },
-      {
-        "pubkey": "string",
-        "address": "string"
-      }
-    ];
+      data: body
+    });
+
+    if (resp.data.error) {
+      throw new Error(`Error happens!, ${resp.data.error}`);
+    }
+
+    console.log("resp", resp.data, resp.data.result)
+
+    // RESPONSE: [ 'address1', 'address2', 'address3' }]
+
+    return resp.data.result;
   }
 
   @post('addressInfo/{address}', {
