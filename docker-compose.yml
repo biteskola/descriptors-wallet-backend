@@ -1,7 +1,11 @@
 version: "3"
-#uses on github action
+# used on github action
+# github host machine user is uid as 1001(runner)
+# and gid as 121(docker)
+# $ id => uid=1001(runner) gid=121(docker) groups=121(docker),4(adm),101(systemd-journal)
 services:
   mongo:
+    container_name: descriptors-wallet_mongo
     image: mongo
     ports:
       - 27018:27017 # for access
@@ -9,19 +13,36 @@ services:
       - back
     restart: always
     tty: true
-    container_name: descriptors-wallet_mongo
 
-  api:
-    build: ./
-    ports:
-      - 3000:3000
-    depends_on:
-      - "mongo"
+  bitcoind:
+    container_name: descriptors-wallet_bitcoind
+    image: kylemanna/bitcoind
+    user: "1001:121"
+    command: bitcoind -conf=/bitcoin/.bitcoin/bitcoin.regtest.conf
+    volumes:
+      - $HOME/.bitcoin:/bitcoin/.bitcoin
     networks:
       - back
     restart: always
     tty: true
+
+  api:
     container_name: descriptors-wallet_api
+    build: ./
+    user: "1001:121"
+    volumes:
+      - $HOME/.bitcoin:/bitcoin/.bitcoin
+    ports:
+      - 3000:3000
+    environment:
+      BITCOIN_NETWORK: "regtest"
+    depends_on:
+      - "mongo"
+      - "bitcoind"
+    networks:
+      - back
+    restart: always
+    tty: true
 
 volumes:
   db_data:

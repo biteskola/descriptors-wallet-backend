@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=14.5.0"
+    "node": ">=16.x"
   },
   "scripts": {
     "build:watch": "lb-tsc --watch",
@@ -20,7 +20,6 @@
     "prettier:fix": "npm run prettier:cli -- --write",
     "eslint": "lb-eslint --report-unused-disable-directives .",
     "eslint:fix": "npm run eslint -- --fix",
-    "pretest": "npm run rebuild",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
@@ -28,16 +27,16 @@
     "rebuild": "npm run clean && npm run build",
     "prestart": "npm run rebuild",
     "build": "lb-tsc",
-    "test": "NODE_ENV=testing lb-mocha --allow-console-logs dist/__tests__/acceptance/**/*.acceptance.js --timeout 100000000 --exit",
+    "test": "NODE_ENV=testing lb-mocha --allow-console-logs dist/__tests__/acceptance/**/*.acceptance.js **/dist/__tests__/acceptance/*.acceptance.js --timeout 100000000 --exit",
     "test:dev": "npm test && npm run lint:fix",
     "api:build": "docker build -t descriptors-wallet .",
     "api:logs": "docker logs descriptors-wallet_api -f",
     "mongo:build": "docker pull mongo",
     "start": "node -r source-map-support/register .",
-    "stop:docker": "docker stop descriptors-wallet_mongo descriptors-wallet_api;docker rm descriptors-wallet_mongo descriptors-wallet_api",
-    "start:prod:docker": "docker-compose -f ./config/docker/prod/docker-compose.yml up --build -d",
-    "start:dev:docker": "docker-compose -f ./config/docker/dev/docker-compose.yml up --build -d",
-    "start:test:docker": "docker-compose -f ./config/docker/test/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run test;npm run stop:docker",
+    "stop:docker": "docker stop descriptors-wallet_mongo descriptors-wallet_api descriptors-wallet_bitcoind;docker rm descriptors-wallet_mongo descriptors-wallet_api descriptors-wallet_bitcoind",
+    "start:prod:docker": "docker-compose -f ./config/docker/prod/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run rebuild;docker exec descriptors-wallet_api node .",
+    "start:dev:docker": "docker-compose -f ./config/docker/dev/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run rebuild;docker exec descriptors-wallet_api node .",
+    "start:test:docker": "docker-compose -f ./config/docker/test/docker-compose.yml up --build -d;docker exec descriptors-wallet_api npm run rebuild;docker exec descriptors-wallet_api npm run test;npm run stop:docker",
     "clean": "lb-clean dist *.tsbuildinfo .eslintcache"
   },
   "repository": {
@@ -62,6 +61,7 @@
     "@loopback/rest-explorer": "^4.1.2",
     "@loopback/security": "^0.7.0",
     "@loopback/service-proxy": "^4.1.2",
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "isemail": "^3.2.0",

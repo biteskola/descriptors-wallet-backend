@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download code
-        run: git clone --branch development https://github.com/biteskola/descriptors-wallet-backend
+        run: git clone --branch add-bitcoin-component https://github.com/biteskola/descriptors-wallet-backend
 
       - name: Create env file
         run: |
@@ -27,6 +27,8 @@ jobs:
           echo "ADMIN_EMAIL='root@email.com'" >> .env
           echo "ADMIN_PASS='passpass1'" >> .env
           echo "JWT_ACCESS_SECRET='myjwts3cr3t'" >> .env
+          mkdir -p $HOME/.bitcoin
+          cp ./config/bitcoin/bitcoin.regtest.conf $HOME/.bitcoin
 
       - name: Up test environment
         run: |

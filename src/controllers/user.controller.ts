@@ -50,6 +50,7 @@ export class UserController {
   ) { }
 
   @post('/users/register', {
+    summary: 'Register a user',
     responses: {
       '200': {
         description: 'User',
@@ -81,6 +82,7 @@ export class UserController {
 
   @get('/users/{userId}', {
     security: SECURITY_SPEC,
+    summary: 'Get users data by userId',
     responses: {
       '200': {
         description: 'User',
@@ -105,6 +107,7 @@ export class UserController {
 
   @get('/users/me', {
     security: SECURITY_SPEC,
+    summary: 'Get logged user data',
     responses: {
       '200': UserProfileResponse,
     },
@@ -119,6 +122,7 @@ export class UserController {
   }
 
   @post('/users/login', {
+    summary: 'Login a user',
     responses: {
       '200': {
         description: 'Token',
@@ -153,6 +157,7 @@ export class UserController {
   }
 
   @post('/users/changeRole', {
+    summary: 'Change users role',
     security: SECURITY_SPEC,
     responses: {
       '200': {
